@@ -24,3 +24,26 @@ func (m *Model) OpenSelectedDir() {
 		panic(err)
 	}
 }
+
+func (m *Model) OpenParentDir() {
+	os.Chdir("..")
+	f, err := os.Open(".")
+	if err != nil {
+		panic(err)
+	}
+	defer f.Close()
+
+	m.fs = nil
+
+	m.fs, err = f.Readdir(-1)
+	if err != nil {
+		panic(err)
+	}
+
+	m.Pointer = 0
+
+	m.CurrentDirectory, err = os.Getwd()
+	if err != nil {
+		panic(err)
+	}
+}

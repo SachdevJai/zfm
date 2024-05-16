@@ -6,7 +6,6 @@ import (
 	"strings"
 
 	tea "github.com/charmbracelet/bubbletea"
-	"golang.org/x/term"
 )
 
 type Model struct {
@@ -67,6 +66,8 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			if m.fs[m.Pointer].IsDir() {
 				m.OpenSelectedDir()
 			}
+		case "left":
+			m.OpenParentDir()
 		}
 	}
 	return m, nil
@@ -75,28 +76,13 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 func (m Model) View() string {
 	var sb strings.Builder
 
-	_, height, err := term.GetSize(0)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error getting terminal size: %v", err)
-		os.Exit(1)
-	}
-
-	for i := 0; i < height; i++ {
-		sb.WriteString("\n")
-	}
-
-	if len(m.fs) == 0 {
-		return "No files"
-	}
-
-	for i, f := range m.fs {
+	for i, v := range m.fs {
 		cursor := " "
 		if i == m.Pointer {
 			cursor = ">"
 		}
-		sb.WriteString(cursor)
-		sb.WriteString(f.Name())
-		sb.WriteString("\n")
+
+		sb.WriteString(fmt.Sprintf("%s %s\n", cursor, v.Name()))
 	}
 
 	return sb.String()
