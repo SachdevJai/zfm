@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/charmbracelet/lipgloss"
 )
 
 type Model struct {
@@ -76,14 +77,25 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 func (m Model) View() string {
 	var sb strings.Builder
 
+	dirStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("#005cc5")).Bold(true)
+	fileStyle := lipgloss.NewStyle()
+	cursorStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("#ffffff")).Bold(true)
+
 	for i, v := range m.fs {
 		cursor := " "
 		if i == m.Pointer {
 			cursor = ">"
 		}
 
-		sb.WriteString(fmt.Sprintf("%s %s\n", cursor, v.Name()))
-	}
+		cursor = cursorStyle.Render(cursor)
 
+		if v.IsDir() {
+			styledDir := dirStyle.Render(v.Name())
+			sb.WriteString(strings.ReplaceAll(fmt.Sprintf("%s %s", cursor, styledDir), "\n", "\n  "))
+			sb.WriteRune('\n')
+		} else {
+			sb.WriteString(fileStyle.Render(fmt.Sprintf("%s %s\n", cursor, v.Name())))
+		}
+	}
 	return sb.String()
 }

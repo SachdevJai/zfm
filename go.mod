@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/charmbracelet/bubbletea v0.26.2
-	golang.org/x/term v0.20.0
+	github.com/charmbracelet/lipgloss v0.10.0
 )
 
 require (
@@ -21,5 +21,6 @@ require (
 	github.com/rivo/uniseg v0.4.7 // indirect
 	golang.org/x/sync v0.7.0 // indirect
 	golang.org/x/sys v0.20.0 // indirect
+	golang.org/x/term v0.20.0 // indirect
 	golang.org/x/text v0.3.8 // indirect
 )
