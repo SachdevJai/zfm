@@ -31,7 +31,7 @@ func renderFilePanel(m *Model) string {
 
 		v := m.fs[i+offset]
 		cursor := " "
-		if i == m.pointer {
+		if i+offset == m.pointer {
 			cursor = ">"
 		}
 
@@ -44,7 +44,7 @@ func renderFilePanel(m *Model) string {
 			styledName = v.Name()
 		}
 
-		if i == m.pointer {
+		if i+offset == m.pointer {
 			styledName = cursorStyle.Render(styledName)
 		}
 
