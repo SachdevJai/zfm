@@ -1,9 +1,9 @@
-package Model
+package internal
 
 import "os"
 
 func (m *Model) OpenSelectedDir() {
-	os.Chdir(m.fs[m.Pointer].Name())
+	os.Chdir(m.fs[m.pointer].Name())
 	f, err := os.Open(".")
 	if err != nil {
 		panic(err)
@@ -17,9 +17,9 @@ func (m *Model) OpenSelectedDir() {
 		panic(err)
 	}
 
-	m.Pointer = 0
+	m.pointer = 0
 
-	m.CurrentDirectory, err = os.Getwd()
+	m.currentDirectory, err = os.Getwd()
 	if err != nil {
 		panic(err)
 	}
@@ -40,9 +40,9 @@ func (m *Model) OpenParentDir() {
 		panic(err)
 	}
 
-	m.Pointer = 0
+	m.pointer = 0
 
-	m.CurrentDirectory, err = os.Getwd()
+	m.currentDirectory, err = os.Getwd()
 	if err != nil {
 		panic(err)
 	}
